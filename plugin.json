@@ -3,8 +3,14 @@
   "name": "Setlists",
   "version": "1.0.0",
   "private": false,
-  "nav": { "label": "Setlists", "screen": "setlists" },
+  "nav": {
+    "label": "Setlists",
+    "screen": "setlists"
+  },
   "screen": "screen.html",
   "script": "screen.js",
-  "routes": "routes.py"
+  "routes": "routes.py",
+  "category": "tools",
+  "description": "Build and play ordered setlists.",
+  "icon": "assets/thumb.svg"
 }
