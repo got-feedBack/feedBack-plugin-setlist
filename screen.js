@@ -3,6 +3,38 @@
 let _slCurrentId = null;
 let _slQueue = [];  // for sequential playback
 let _slQueueIndex = -1;
+let _slShuffle = localStorage.getItem('setlist:shuffle') === '1';
+
+// ── Shuffle toggle ──────────────────────────────────────────────────────
+
+function slToggleShuffle() {
+    _slShuffle = !_slShuffle;
+    try { localStorage.setItem('setlist:shuffle', _slShuffle ? '1' : '0'); } catch (_) {}
+    _slUpdateShuffleBtn();
+}
+
+function _slUpdateShuffleBtn() {
+    const btn = document.getElementById('sl-shuffle-btn');
+    if (!btn) return;
+    // Only classes already used elsewhere in this plugin/core — the plugin
+    // ships no own stylesheet, so anything outside core's prebuilt Tailwind
+    // scan would render unstyled (see core CLAUDE.md, Principle II).
+    btn.className = _slShuffle
+        ? 'px-3 py-2 bg-accent hover:bg-accent-light rounded-xl text-white transition'
+        : 'px-3 py-2 bg-dark-600 hover:bg-dark-500 rounded-xl text-gray-300 transition';
+    btn.title = _slShuffle ? 'Shuffle: on' : 'Shuffle: off';
+    btn.setAttribute('aria-pressed', _slShuffle ? 'true' : 'false');
+}
+
+// Fisher-Yates, on a copy — the stored setlist order is never touched.
+function _slShuffled(songs) {
+    const arr = songs.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
 
 // ── List View ───────────────────────────────────────────────────────────
 
@@ -74,10 +106,13 @@ async function slLoadDetail() {
     if (data.songs.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-sm">Empty setlist. Search and add songs above.</p>';
         document.getElementById('sl-play-btn').classList.add('hidden');
+        document.getElementById('sl-shuffle-btn').classList.add('hidden');
         return;
     }
 
     document.getElementById('sl-play-btn').classList.remove('hidden');
+    document.getElementById('sl-shuffle-btn').classList.remove('hidden');
+    _slUpdateShuffleBtn();
 
     container.innerHTML = data.songs.map((s, i) => `
         <div class="flex items-center gap-3 bg-dark-700/30 border border-gray-800/30 rounded-lg p-3" data-song-id="${s.id}">
@@ -175,7 +210,9 @@ async function slPlayAll() {
     const data = await resp.json();
     if (!data.songs || data.songs.length === 0) return;
 
-    _slQueue = data.songs;
+    // Shuffle once at start: Prev/Next then walk the shuffled order, so
+    // "previous" is always the song that was just heard.
+    _slQueue = _slShuffle ? _slShuffled(data.songs) : data.songs;
     _slQueueIndex = 0;
     _slPlayCurrent();
 }

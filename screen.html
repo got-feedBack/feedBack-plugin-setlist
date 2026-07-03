@@ -20,6 +20,9 @@
             </button>
             <h2 class="text-2xl font-bold text-white flex-1" id="sl-detail-name"></h2>
             <button onclick="slRename()" class="px-3 py-1.5 bg-dark-600 hover:bg-dark-500 rounded-lg text-xs text-gray-300 transition">Rename</button>
+            <button onclick="slToggleShuffle()" id="sl-shuffle-btn" class="hidden px-3 py-2 bg-dark-600 hover:bg-dark-500 rounded-xl text-gray-300 transition" title="Shuffle: off" aria-pressed="false">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+            </button>
             <button onclick="slPlayAll()" id="sl-play-btn" class="bg-accent hover:bg-accent-light px-5 py-2 rounded-xl text-sm font-semibold text-white transition">Play All</button>
         </div>
 
