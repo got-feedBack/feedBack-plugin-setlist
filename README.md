@@ -1,6 +1,6 @@
 # Slopsmith Plugin: Setlist Builder
 
-A plugin for [Slopsmith](https://github.com/got-feedback/feedback) that lets you create ordered playlists of songs for gig prep, practice routines, or themed sessions.
+A plugin for [Slopsmith](https://github.com/got-feedback/feedBack) that lets you create ordered playlists of songs for gig prep, practice routines, or themed sessions.
 
 ## Features
 
@@ -15,7 +15,7 @@ A plugin for [Slopsmith](https://github.com/got-feedback/feedback) that lets you
 
 ```bash
 cd /path/to/slopsmith/plugins
-git clone https://github.com/got-feedback/feedback-plugin-setlist.git setlist
+git clone https://github.com/got-feedback/feedBack-plugin-setlist.git setlist
 docker compose restart
 ```
 
