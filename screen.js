@@ -4,6 +4,10 @@ let _slCurrentId = null;
 let _slQueue = [];  // for sequential playback
 let _slQueueIndex = -1;
 
+function formatJsStringForHtml(str) {
+    return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
 // ── List View ───────────────────────────────────────────────────────────
 
 async function slLoadList() {
@@ -23,7 +27,7 @@ async function slLoadList() {
                 <h3 class="text-sm font-semibold text-white">${esc(s.name)}</h3>
                 <p class="text-xs text-gray-500 mt-0.5">${s.song_count} song${s.song_count !== 1 ? 's' : ''}</p>
             </div>
-            <button onclick="event.stopPropagation();slDelete(${s.id},'${esc(s.name).replace(/'/g,"\\'")}')"
+            <button onclick="event.stopPropagation();slDelete(${s.id},'${formatJsStringForHtml(esc(s.name))}')"
                 class="px-2 py-1 text-gray-600 hover:text-red-400 transition text-xs">Delete</button>
         </div>
     `).join('');
@@ -82,7 +86,7 @@ async function slLoadDetail() {
     container.innerHTML = data.songs.map((s, i) => `
         <div class="flex items-center gap-3 bg-dark-700/30 border border-gray-800/30 rounded-lg p-3" data-song-id="${s.id}">
             <span class="text-xs text-gray-600 w-6 text-center">${i + 1}</span>
-            <div class="flex-1 min-w-0 cursor-pointer" onclick="playSong('${encodeURIComponent(s.filename)}')">
+            <div class="flex-1 min-w-0 cursor-pointer" onclick="playSong('${formatJsStringForHtml(encodeURIComponent(s.filename))}')">
                 <span class="text-sm text-white truncate block hover:text-accent-light transition">${esc(s.title || s.filename)}</span>
                 <span class="text-xs text-gray-500">${esc(s.artist || '')}${s.arrangement ? ' · ' + s.arrangement : ''}</span>
             </div>
@@ -150,7 +154,7 @@ async function slSearchSongs() {
                 <span class="text-sm text-white">${esc(s.title)}</span>
                 <span class="text-xs text-gray-500 ml-2">${esc(s.artist)}</span>
             </div>
-            ${arrs.map(a => `<button onclick="slAddSong('${encodeURIComponent(s.filename)}','${esc(s.title).replace(/'/g,"\\'")}','${esc(s.artist).replace(/'/g,"\\'")}','${a}')"
+            ${arrs.map(a => `<button onclick="slAddSong('${formatJsStringForHtml(encodeURIComponent(s.filename))}','${formatJsStringForHtml(esc(s.title))}','${formatJsStringForHtml(esc(s.artist))}','${formatJsStringForHtml(a)}')"
                 class="px-2 py-1 bg-dark-600 hover:bg-accent/30 rounded text-xs text-gray-300 hover:text-white transition">+ ${a}</button>`).join('')}
         </div>`;
     }).join('');
