@@ -154,8 +154,8 @@ async function slSearchSongs() {
                 <span class="text-sm text-white">${esc(s.title)}</span>
                 <span class="text-xs text-gray-500 ml-2">${esc(s.artist)}</span>
             </div>
-            ${arrs.map(a => `<button onclick="slAddSong('${formatJsStringForHtml(encodeURIComponent(s.filename))}','${formatJsStringForHtml(esc(s.title))}','${formatJsStringForHtml(esc(s.artist))}','${formatJsStringForHtml(a)}')"
-                class="px-2 py-1 bg-dark-600 hover:bg-accent/30 rounded text-xs text-gray-300 hover:text-white transition">+ ${a}</button>`).join('')}
+            ${arrs.map(a => `<button onclick="slAddSong('${formatJsStringForHtml(encodeURIComponent(s.filename))}','${formatJsStringForHtml(esc(s.title))}','${formatJsStringForHtml(esc(s.artist))}','${formatJsStringForHtml(esc(a))}')"
+                class="px-2 py-1 bg-dark-600 hover:bg-accent/30 rounded text-xs text-gray-300 hover:text-white transition">+ ${esc(a)}</button>`).join('')}
         </div>`;
     }).join('');
 }
