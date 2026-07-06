@@ -31,7 +31,7 @@ async function slLoadList() {
                 <h3 class="text-sm font-semibold text-white">${esc(s.name)}</h3>
                 <p class="text-xs text-gray-500 mt-0.5">${s.song_count} song${s.song_count !== 1 ? 's' : ''}</p>
             </div>
-            <button onclick="event.stopPropagation();slDelete(${s.id},'${esc(formatJsStringForHtml(s.name))}')"
+            <button onclick="event.stopPropagation();slDelete(${s.id},'${_escAttr(formatJsStringForHtml(s.name))}')"
                 class="px-2 py-1 text-gray-600 hover:text-red-400 transition text-xs">Delete</button>
         </div>
     `).join('');
@@ -92,7 +92,7 @@ async function slLoadDetail() {
             <span class="text-xs text-gray-600 w-6 text-center">${i + 1}</span>
             <div class="flex-1 min-w-0 cursor-pointer" onclick="playSong('${esc(formatJsStringForHtml(encodeURIComponent(s.filename)))}')">
                 <span class="text-sm text-white truncate block hover:text-accent-light transition">${esc(s.title || s.filename)}</span>
-                <span class="text-xs text-gray-500">${esc(s.artist || '')}${s.arrangement ? ' · ' + s.arrangement : ''}</span>
+                <span class="text-xs text-gray-500">${esc(s.artist || '')}${s.arrangement ? ' · ' + esc(s.arrangement) : ''}</span>
             </div>
             <div class="flex gap-1 flex-shrink-0">
                 <button onclick="slMove(${s.id},-1)" class="px-2 py-1 text-gray-600 hover:text-white transition text-xs" ${i === 0 ? 'disabled' : ''}>&#9650;</button>
@@ -158,7 +158,7 @@ async function slSearchSongs() {
                 <span class="text-sm text-white">${esc(s.title)}</span>
                 <span class="text-xs text-gray-500 ml-2">${esc(s.artist)}</span>
             </div>
-            ${arrs.map(a => `<button onclick="slAddSong('${esc(formatJsStringForHtml(encodeURIComponent(s.filename)))}','${esc(formatJsStringForHtml(s.title))}','${esc(formatJsStringForHtml(s.artist))}','${esc(formatJsStringForHtml(a))}')"
+            ${arrs.map(a => `<button onclick="slAddSong('${esc(formatJsStringForHtml(encodeURIComponent(s.filename)))}','${_escAttr(formatJsStringForHtml(s.title))}','${_escAttr(formatJsStringForHtml(s.artist))}','${_escAttr(formatJsStringForHtml(a))}')"
                 class="px-2 py-1 bg-dark-600 hover:bg-accent/30 rounded text-xs text-gray-300 hover:text-white transition">+ ${esc(a)}</button>`).join('')}
         </div>`;
     }).join('');
